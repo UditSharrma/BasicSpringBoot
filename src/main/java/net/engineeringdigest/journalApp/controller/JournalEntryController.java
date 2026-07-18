@@ -40,6 +40,7 @@ public class JournalEntryController {
     @PutMapping("id/{id}")
     public JournalEntry UpdateJournalEntryByID(@PathVariable Long id,@RequestBody JournalEntry myEntry){
          return journalEntries.put(id,myEntry);
+
      }
 
 
