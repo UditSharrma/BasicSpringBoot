@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping("/journal")
 public class JournalEntryController {
 
-    private Map<Long, JournalEntry>journalEntries=new HashMap<>();
+    private final Map<Long, JournalEntry>journalEntries=new HashMap<>();
 
      @GetMapping
     public List<JournalEntry> getAll(){
@@ -33,13 +33,14 @@ public class JournalEntryController {
      }
 
      @DeleteMapping("id/{myID}")
-     public JournalEntry DeleteJournalEntryById(@PathVariable Long myId){
-         return journalEntries.remove(myId);
+     public JournalEntry DeleteJournalEntryById(@PathVariable Long myID){
+         return journalEntries.remove(myID);
      }
 
     @PutMapping("id/{id}")
     public JournalEntry UpdateJournalEntryByID(@PathVariable Long id,@RequestBody JournalEntry myEntry){
          return journalEntries.put(id,myEntry);
+
 
      }
 
