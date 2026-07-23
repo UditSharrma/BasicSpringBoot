@@ -32,6 +32,7 @@ public class JournalEntryControllerV2 {
         return myEntry;
 
     }
+
     @GetMapping("id/{myId}")
     public JournalEntry getJournalEntryById(@PathVariable ObjectId myId){
         return journalEntryService.findById(myId).orElse(null);
