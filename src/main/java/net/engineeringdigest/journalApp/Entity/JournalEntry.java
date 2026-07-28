@@ -1,25 +1,22 @@
 package net.engineeringdigest.journalApp.Entity;
-
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Document(collection = "journal_entries")
-
+@Document(collection = "users")
 @Data
 public class JournalEntry {
-
     @Id
     private ObjectId id;
+    @NonNull
     private String tittle;
     private String content;
-
-
     private LocalDateTime date;
+
 }
