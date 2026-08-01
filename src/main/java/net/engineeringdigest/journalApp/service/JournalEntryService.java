@@ -20,13 +20,15 @@ public class JournalEntryService {
 
     @Autowired
     private UserService userService;
-
-
     public void  saveEntry(JournalEntry journalEntry, String userName){
+        User user= userService.findByUserName(userName);
 
-        User user=userService.findByUserName(userName);
+
         journalEntry.setDate(LocalDateTime.now());
-        journalEntryRepository.save(journalEntry);
+        JournalEntry saved = journalEntryRepository.save(journalEntry);
+        user.getJournalEntries().add(saved);
+        userService.saveEntry(user);
+
     }
     public List<JournalEntry> getAll(){
         return journalEntryRepository.findAll();
@@ -35,8 +37,10 @@ public class JournalEntryService {
     public Optional<JournalEntry> findById(ObjectId id){
         return journalEntryRepository.findById(id);
     }
-    public void deleteBYId(ObjectId id){
+    public void deleteBYId(ObjectId id, String userName){
+        User user= userService.findByUserName(userName);
+        user.getJournalEntries().removeIf(x->x.getId().equals(id));
+        userService.saveEntry(user);
         journalEntryRepository.deleteById(id);
     }
-
 }

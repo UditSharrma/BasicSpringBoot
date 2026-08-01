@@ -37,7 +37,6 @@ public class JournalEntryControllerV2 {
     @PostMapping("{userName}")
     public ResponseEntity <JournalEntry>  createEntry(@RequestBody JournalEntry myEntry ,@PathVariable String userName) {
        try {
-
            journalEntryService.saveEntry(myEntry,userName);
            return new ResponseEntity<>(myEntry,HttpStatus.CREATED);
        }
@@ -57,9 +56,9 @@ public class JournalEntryControllerV2 {
     }
 
 
-    @DeleteMapping("id/{myID}")
-    public ResponseEntity<?>DeleteJournalEntryById(@PathVariable ObjectId myID){
-        journalEntryService.deleteBYId(myID);
+    @DeleteMapping("id/{userName}/{myID}")
+    public ResponseEntity<?>DeleteJournalEntryById(@PathVariable ObjectId myID ,@PathVariable String userName){
+        journalEntryService.deleteBYId(myID,userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
