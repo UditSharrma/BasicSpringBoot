@@ -44,7 +44,6 @@ public class JournalEntryControllerV2 {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
        }
     }
-
     @GetMapping("id/{myId}")
     public ResponseEntity<JournalEntry> getJournalEntryById(@PathVariable ObjectId myId){
         Optional<JournalEntry> journalEntry = journalEntryService.findById(myId);
@@ -54,29 +53,28 @@ public class JournalEntryControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-
-
     @DeleteMapping("id/{userName}/{myID}")
     public ResponseEntity<?>DeleteJournalEntryById(@PathVariable ObjectId myID ,@PathVariable String userName){
         journalEntryService.deleteBYId(myID,userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("id/{id}")
-    public ResponseEntity<?> updateJournalEntryByID(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
-        JournalEntry old = journalEntryService.findById(id).orElse(null);
 
-//        if (old != null) {
-//            // Fixed: Check if new title is not null and not empty
-//            old.setTittle(newEntry.getTittle() != null && !newEntry.getTittle().isEmpty() ? newEntry.getTittle() : old.getTittle());
-//
-//            // FIXED BUG: Changed newEntry.equals("") to !newEntry.getContent().isEmpty()
-//            old.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : old.getContent());
-//
-//            journalEntryService.saveEntry(old, user);
-//            return new ResponseEntity<>(old, HttpStatus.OK);
-//        }
-
+    @PutMapping("id/{userName}/{myId}")
+    public ResponseEntity<?> updateJournalEntryByID(
+            @PathVariable ObjectId myId,
+            @PathVariable String userName,
+            @RequestBody JournalEntry newEntry
+    ) {
+        JournalEntry old = journalEntryService.findById(myId).orElse(null);
+        if (old != null) {
+            // Fixed: Check if new title is not null and not empty
+            old.setTittle(newEntry.getTittle() != null && !newEntry.getTittle().isEmpty() ? newEntry.getTittle() : old.getTittle());
+            // FIXED BUG: Changed newEntry.equals("") to !newEntry.getContent().isEmpty()
+            old.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : old.getContent());
+            journalEntryService.saveEntry(old);
+            return new ResponseEntity<>(old, HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
